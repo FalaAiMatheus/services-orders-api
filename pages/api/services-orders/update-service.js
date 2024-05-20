@@ -11,7 +11,7 @@
 
 import { supabase } from "@/services/supabase";
 
-export default async function createServiceOrder(req, res) {
+export default async function updateServiceOrder(req, res) {
   const { id } = req.query;
   const {
     id_client,
@@ -40,6 +40,6 @@ export default async function createServiceOrder(req, res) {
   }
 
   return res
-    .status(201)
+    .status(200)
     .json({ message: "Ordem de serviço atualizada com sucesso!" });
 }
