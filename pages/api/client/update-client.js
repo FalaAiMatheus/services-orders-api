@@ -23,10 +23,6 @@ export default async function updateClient(req, res) {
     res.status(500).json({ message: `A error its occurred: ${error.message}` });
   }
 
-  if (error.code == "22P02") {
-    res.status(401).json({ message: `A error its occurred: ${error.message}` });
-  }
-
   return res
     .status(201)
     .json({ message: "Cliente foi atualizado com sucesso!" });

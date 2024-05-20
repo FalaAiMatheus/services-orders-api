@@ -25,6 +25,10 @@ export default async function getClients(req, res) {
     .select("*")
     .eq("id_client", id);
 
+  if (data.length === 0) {
+    return res.status(401).json({ message: "Id não existe" });
+  }
+
   if (error) {
     res.status(500).json({ message: "A error its occurred" });
   }
