@@ -11,7 +11,7 @@
 
 import { supabase } from "@/services/supabase";
 
-export default async function updateClient(req, res) {
+export default async function updateClients(req, res) {
   const { id } = req.query;
   const { name, address, telephone, email } = req.body;
   const { data, error } = await supabase
@@ -24,6 +24,6 @@ export default async function updateClient(req, res) {
   }
 
   return res
-    .status(201)
+    .status(200)
     .json({ message: "Cliente foi atualizado com sucesso!" });
 }

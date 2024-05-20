@@ -11,7 +11,7 @@
 
 import { supabase } from "@/services/supabase";
 
-export default async function createClient(req, res) {
+export default async function createClients(req, res) {
   const { name, address, telephone, email } = req.body;
   const { data, error } = await supabase
     .from("clients")

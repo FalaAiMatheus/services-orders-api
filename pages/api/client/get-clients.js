@@ -17,7 +17,7 @@ export default async function getClients(req, res) {
   if (!id) {
     const { data, error } = await supabase.from("clients").select("*");
 
-    return res.status(201).json(data);
+    return res.status(200).json(data);
   }
 
   const { data, error } = await supabase
@@ -33,5 +33,5 @@ export default async function getClients(req, res) {
     res.status(500).json({ message: "A error its occurred" });
   }
 
-  return res.status(201).json(data);
+  return res.status(200).json(data);
 }
