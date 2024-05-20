@@ -25,6 +25,7 @@ export default async function createServiceOrder(req, res) {
     service_description,
     estimated_cost,
     relevant_notes,
+    status: "Inicial"
   });
 
   if (error) {
