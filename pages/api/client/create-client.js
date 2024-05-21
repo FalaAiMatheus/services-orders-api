@@ -1,5 +1,5 @@
 /**
- * Nome do arquivo: supabase.js
+ * Nome do arquivo: create-client.js
  * Data de criação: 20/05/2024
  * Autor: Matheus França
  * Matrícula: 01589182
