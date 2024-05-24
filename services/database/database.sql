@@ -10,7 +10,10 @@ create table services_orders (
   id_order bigint primary key generated always as identity,
   id_client bigint references clients(id_client),
   order_date date,
+  name text,
   service_description text,
   estimated_cost decimal,
-  relevant_notes text
+  relevant_notes text,
+  status text,
+  final_cost decimal
 );
