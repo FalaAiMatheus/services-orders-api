@@ -21,6 +21,7 @@ export default async function updateServiceOrder(req, res) {
     relevant_notes,
     status,
     final_cost,
+    name,
   } = req.body;
   const { data, error } = await supabase
     .from("services_orders")
@@ -31,6 +32,7 @@ export default async function updateServiceOrder(req, res) {
       estimated_cost,
       relevant_notes,
       status,
+      name,
       final_cost,
     })
     .eq("id_order", id);

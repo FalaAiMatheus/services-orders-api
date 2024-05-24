@@ -18,6 +18,7 @@ export default async function createServiceOrder(req, res) {
     service_description,
     estimated_cost,
     relevant_notes,
+    name
   } = req.body;
   const { data, error } = await supabase.from("services_orders").insert({
     id_client,
@@ -25,6 +26,7 @@ export default async function createServiceOrder(req, res) {
     service_description,
     estimated_cost,
     relevant_notes,
+    name,
     status: "Inicial"
   });
 
