@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { ServiceDetails } from "./View";
+import ServiceDetails from "./View";
 
-export function Table() {
+function Table() {
   const [data, setData] = useState(null);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
 
@@ -75,3 +75,5 @@ export function Table() {
     </div>
   );
 }
+
+export default Table;

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Table } from "./components/Table";
+import Table from "./components/Table";
 
 export default function Home() {
   return (
