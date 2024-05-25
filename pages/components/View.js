@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-export function ServiceDetails({ id }) {
+function ServiceDetails({ id }) {
   const [service, setService] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -128,3 +128,4 @@ export function ServiceDetails({ id }) {
     </div>
   );
 }
+export default ServiceDetails;
