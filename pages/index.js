@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Table from "./components/Table";
+import Create from "./components/Create";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       </Head>
       <main className="flex flex-col items-center justify-center w-full">
         <Table />
+        <Create />
       </main>
     </>
   );
