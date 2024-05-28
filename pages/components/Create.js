@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 
-const ViewAndEditService = ({ orderId }) => {
+const CreateServiceForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     estimated_cost: "",
@@ -9,32 +9,6 @@ const ViewAndEditService = ({ orderId }) => {
     status: "",
     final_cost: "",
   });
-
-  useEffect(() => {
-    const fetchServiceData = async () => {
-      try {
-        const response = await fetch(
-          `/api/services-orders/get-service?id=${orderId}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setFormData(data); // Preenche o formulário com os dados da API
-        } else {
-          console.error(
-            "Erro ao buscar dados da ordem de serviço:",
-            response.statusText
-          );
-        }
-      } catch (error) {
-        console.error(
-          "Erro ao buscar dados da ordem de serviço:",
-          error.message
-        );
-      }
-    };
-
-    fetchServiceData();
-  }, [orderId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,33 +18,28 @@ const ViewAndEditService = ({ orderId }) => {
     }));
   };
 
-  const handleEditForm = async () => {
-    const response = await fetch(
-      `/api/services-orders/update-service?id=${orderId}`,
-      {
-        body: JSON.stringify({
-          name,
-          estimated_cost,
-          service_description,
-          status,
-          final_cost,
-        }),
-      }
-    );
-    console.log(response);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Aqui você deve fazer a chamada para a API de atualização
-      // Exemplo fictício:
-      console.log("Dados enviados para atualização:", formData);
+      const response = await fetch("/api/services-orders/create-service", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Ordem de serviço criada:", data);
+        // Aqui você pode tratar a resposta conforme necessário.
+      } else {
+        console.error("Erro ao criar ordem de serviço:", response.statusText);
+      }
     } catch (error) {
-      console.error("Erro ao atualizar ordem de serviço:", error.message);
+      console.error("Erro ao criar ordem de serviço:", error.message);
     }
   };
-
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="name">
@@ -124,11 +93,11 @@ const ViewAndEditService = ({ orderId }) => {
         />
       </Form.Group>
 
-      <Button onSubmit={handleEditForm} variant="primary" type="submit">
-        Atualizar
+      <Button variant="primary" type="submit">
+        Criar
       </Button>
     </Form>
   );
 };
 
-export default ViewAndEditService;
+export default CreateServiceForm;
