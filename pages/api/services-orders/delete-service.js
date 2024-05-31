@@ -9,7 +9,7 @@
  * Este script é parte o curso de ADS.
  */
 
-import { supabase } from "@/services/supabase";
+import { methodDelete } from "@/services/repository";
 
 export default async function deleteServiceOrder(req, res) {
   const { id } = req.query;
@@ -18,10 +18,11 @@ export default async function deleteServiceOrder(req, res) {
     return res.status(401).json({ message: "Digite um ID!" });
   }
 
-  const { data, error } = await supabase
-    .from("services_orders")
-    .delete()
-    .eq("id_order", id);
+  const { data, error } = await methodDelete({
+    table: "services_orders",
+    column_string: "id_order",
+    id,
+  });
 
   if (error) {
     res.status(500).json({ message: "A error its occurred" });

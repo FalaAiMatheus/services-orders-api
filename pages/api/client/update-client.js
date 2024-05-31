@@ -9,15 +9,17 @@
  * Este script é parte o curso de ADS.
  */
 
-import { supabase } from "@/services/supabase";
+import { methodUpdate } from "@/services/repository";
 
 export default async function updateClients(req, res) {
   const { id } = req.query;
   const { name, address, telephone, email } = req.body;
-  const { data, error } = await supabase
-    .from("clients")
-    .update({ name, address, telephone, email })
-    .eq("id_client", id);
+  const { data, error } = await methodUpdate({
+    table: "clients",
+    body: { name, address, telephone, email },
+    column_string: "id_client",
+    id,
+  });
 
   if (error) {
     res.status(500).json({ message: `A error its occurred: ${error.message}` });

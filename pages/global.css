@@ -7,3 +7,7 @@
     align-items: center;
     justify-content: center;
 }
+.modal {
+    background-color: #0000003a;
+    height: 100vh;
+}

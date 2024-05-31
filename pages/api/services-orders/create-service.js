@@ -9,7 +9,8 @@
  * Este script é parte o curso de ADS.
  */
 
-import { supabase } from "@/services/supabase";
+import { statusTypes } from "@/services/enums/status";
+import { methodCreate } from "@/services/repository";
 
 export default async function createServiceOrder(req, res) {
   const {
@@ -18,20 +19,26 @@ export default async function createServiceOrder(req, res) {
     service_description,
     estimated_cost,
     relevant_notes,
-    name
-  } = req.body;
-  const { data, error } = await supabase.from("services_orders").insert({
-    id_client,
-    order_date,
-    service_description,
-    estimated_cost,
-    relevant_notes,
     name,
-    status: "Inicial"
+  } = req.body;
+  const { data, error } = await methodCreate({
+    table: "services_orders",
+    body: {
+      id_client,
+      order_date,
+      service_description,
+      estimated_cost,
+      relevant_notes,
+      name,
+      status: statusTypes.Inicial,
+    },
   });
 
   if (error) {
     res.status(500).json({ message: "A error its occurred" });
+  }
+  if (id_client) {
+    res.status(401).json({ message: "Insira um cliente" });
   }
 
   return res

@@ -9,25 +9,22 @@
  * Este script é parte o curso de ADS.
  */
 
-import { supabase } from "@/services/supabase";
+import { methodAllGet, methodGet } from "@/services/repository";
 
 export default async function getClients(req, res) {
   const { id } = req.query;
 
   if (!id) {
-    const { data, error } = await supabase.from("clients").select("*");
+    const { data, error } = await methodAllGet({ table: "clients" });
 
     return res.status(200).json(data);
   }
 
-  const { data, error } = await supabase
-    .from("clients")
-    .select("*")
-    .eq("id_client", id);
-
-  if (data.length === 0) {
-    return res.status(401).json({ message: "Id não existe" });
-  }
+  const { data, error } = await methodGet({
+    table: "clients",
+    column_string: "id_client",
+    id,
+  });
 
   if (error) {
     res.status(500).json({ message: "A error its occurred" });

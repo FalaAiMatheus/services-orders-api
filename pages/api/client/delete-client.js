@@ -9,19 +9,16 @@
  * Este script é parte o curso de ADS.
  */
 
-import { supabase } from "@/services/supabase";
+import { methodDelete } from "@/services/repository";
 
 export default async function deleteClients(req, res) {
   const { id } = req.query;
-
+  await methodDelete({ table: "clients", column_string: "id_client", id });
   if (!id) {
     return res.status(401).json({ message: "Digite um ID!" });
   }
 
-  const { data, error } = await supabase
-    .from("clients")
-    .delete()
-    .eq("id_client", id);
-
-  return res.status(200).json({ message: `O ID ${id} foi deletado com sucesso!` });
+  return res
+    .status(200)
+    .json({ message: `O ID ${id} foi deletado com sucesso!` });
 }

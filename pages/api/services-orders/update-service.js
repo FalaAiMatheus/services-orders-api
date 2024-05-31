@@ -9,7 +9,7 @@
  * Este script é parte o curso de ADS.
  */
 
-import { supabase } from "@/services/supabase";
+import { methodUpdate } from "@/services/repository";
 
 export default async function updateServiceOrder(req, res) {
   const { id } = req.query;
@@ -23,9 +23,9 @@ export default async function updateServiceOrder(req, res) {
     final_cost,
     name,
   } = req.body;
-  const { data, error } = await supabase
-    .from("services_orders")
-    .update({
+  const { data, error } = await methodUpdate({
+    table: "services_orders",
+    body: {
       id_client,
       order_date,
       service_description,
@@ -34,8 +34,10 @@ export default async function updateServiceOrder(req, res) {
       status,
       name,
       final_cost,
-    })
-    .eq("id_order", id);
+    },
+    column_string: "id_order",
+    id,
+  });
 
   if (error) {
     res.status(500).json({ message: "A error its occurred" });

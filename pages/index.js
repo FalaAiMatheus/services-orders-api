@@ -1,8 +1,13 @@
 import Head from "next/head";
 import Table from "./components/Table";
 import CreateServiceForm from "./components/Create";
+import CreateClientForm from "./components/CreateClient";
+import { Button } from "react-bootstrap";
+import { useState } from "react";
+import TableClient from "./components/TableClient";
 
 export default function Home() {
+  const [modalClient, setModalClient] = useState(false);
   return (
     <>
       <Head>
@@ -19,7 +24,14 @@ export default function Home() {
       </Head>
       <main className="d-flex flex-column align-items-center justify-content-center w-full">
         <Table />
-        <CreateServiceForm />
+        <TableClient />
+        <div className="d-flex gap-3">
+          {!modalClient && <CreateServiceForm />}
+          {modalClient && <CreateClientForm />}
+        </div>
+        <Button className="mt-5" onClick={() => setModalClient(!modalClient)} variant="primary">
+          {modalClient ? "Criar serviço" : "Criar Cliente"}
+        </Button>
       </main>
     </>
   );
