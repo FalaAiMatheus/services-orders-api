@@ -40,9 +40,7 @@ function TableClient() {
                   <td>
                     <div className="d-flex gap-3">
                       <button
-                        onClick={() => (
-                          <ViewAndEditService orderId={client.id_client} />
-                        )}
+                        onClick={() => setHandleViewForm(true)}
                         class="btn btn-primary mr-2"
                       >
                         Visualizar
@@ -64,6 +62,11 @@ function TableClient() {
                   </td>
                 </tr>
               ))}
+            {handleViewForm && (
+              <ViewAndEditService
+                orderId={data.map(({ id_client }) => id_client)}
+              />
+            )}
           </tbody>
         </table>
       </div>

@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import EditServiceForm from "./View";
 
 function Table() {
   const [data, setData] = useState(null);
-  const [selectedServiceId, setSelectedServiceId] = useState(null);
+  const [dataClient, setDataClient] = useState(null);
 
   async function handleDeleteService(id) {
     const response = await fetch(
       `/api/services-orders/delete-service?id=${id}`
     );
-    console.log(response);
+    window.location.reload();
   }
 
   async function getServices() {
@@ -18,13 +17,16 @@ function Table() {
     setData(json);
   }
 
+  async function getClientID() {
+    const response = await fetch("/api/client/get-clients");
+    const json = await response.json();
+    setDataClient(json);
+  }
+
   useEffect(() => {
     getServices();
+    getClientID();
   }, []);
-
-  const handleViewForm = (id) => {
-    setSelectedServiceId(id);
-  };
 
   return (
     <div class="w-full">
@@ -33,40 +35,56 @@ function Table() {
         <table class="table table-bordered">
           <thead class="bg-gray-200">
             <tr>
-              <th>ID</th>
+              <th>OS</th>
               <th>Nome</th>
+              <th>Cliente</th>
               <th>Preço</th>
+              <th>Data</th>
+              <th>Status</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
             {data &&
-              data.map((service) => (
-                <tr key={service.id}>
-                  <td>{service.id_order}</td>
-                  <td>{service.name}</td>
-                  <td>R$ {service.estimated_cost}</td>
-                  <td>
-                    <button
-                      onClick={() => handleViewForm(service.id_order)}
-                      class="btn btn-primary mr-2"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteService(service.id_order)}
-                      class="btn btn-danger"
-                    >
-                      Deletar
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              data.map(
+                ({
+                  id_order,
+                  name,
+                  id_client,
+                  price,
+                  order_date,
+                  current_status,
+                }) => (
+                  <tr key={id_order}>
+                    <td>{id_order}</td>
+                    <td>{name}</td>
+                    {dataClient &&
+                      dataClient.map((client) => {
+                        if (id_client === client.id_client) {
+                          return <td key={client.id_client}>{client.name}</td>;
+                        }
+                      })}
+                    <td>R$ {price}</td>
+                    <td>{new Date(order_date).toLocaleDateString("pt-br")}</td>
+                    <td>{current_status}</td>
+                    <td>
+                      <div className="d-flex gap-3">
+                        <button class="btn btn-primary mr-2">Editar</button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteService(id_order)}
+                          class="btn btn-danger"
+                        >
+                          Deletar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              )}
           </tbody>
         </table>
       </div>
-      {selectedServiceId && <EditServiceForm orderId={selectedServiceId} />}
     </div>
   );
 }

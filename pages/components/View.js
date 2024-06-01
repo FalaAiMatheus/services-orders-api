@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 
-const ViewAndEditService = ({ orderId }) => {
-
+const ViewAndEditService = ({ id_client }) => {
+  const [data, setData] = useState(null);
   useEffect(() => {
     const fetchServiceData = async () => {
       try {
-        const response = await fetch(
-          `/api/services-orders/get-service?id=${orderId}`
-        );
+        const response = await fetch(`/api/client/get-client?id=${id_client}`);
         if (response.ok) {
           const data = await response.json();
-          setFormData(data); // Preenche o formulário com os dados da API
+          setData(data); // Preenche o formulário com os dados da API
         } else {
           console.error(
             "Erro ao buscar dados da ordem de serviço:",
@@ -27,64 +25,34 @@ const ViewAndEditService = ({ orderId }) => {
     };
 
     fetchServiceData();
-  }, [orderId]);
+  }, [id_client]);
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
       <Form.Group controlId="name">
         <Form.Label>Nome</Form.Label>
-        <Form.Control
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
+        <Form.Control type="text" name="name" value={data.name} />
       </Form.Group>
 
-      <Form.Group controlId="estimated_cost">
-        <Form.Label>Custo Estimado</Form.Label>
-        <Form.Control
-          type="text"
-          name="estimated_cost"
-          value={formData.estimated_cost}
-          onChange={handleChange}
-        />
+      <Form.Group controlId="email">
+        <Form.Label>Email</Form.Label>
+        <Form.Control type="text" name="email" value={data.email} />
       </Form.Group>
 
-      <Form.Group controlId="service_description">
-        <Form.Label>Descrição do Serviço</Form.Label>
+      <Form.Group controlId="address">
+        <Form.Label>Endereço</Form.Label>
         <Form.Control
-          as="textarea"
+          type="text"
           rows={3}
-          name="service_description"
-          value={formData.service_description}
-          onChange={handleChange}
+          name="address"
+          value={data.address}
         />
       </Form.Group>
 
-      <Form.Group controlId="status">
-        <Form.Label>Status</Form.Label>
-        <Form.Control
-          type="text"
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        />
+      <Form.Group controlId="telephone">
+        <Form.Label>Telefone</Form.Label>
+        <Form.Control type="text" name="telephone" value={data.telephone} />
       </Form.Group>
-
-      <Form.Group controlId="final_cost">
-        <Form.Label>Custo Final</Form.Label>
-        <Form.Control
-          type="text"
-          name="final_cost"
-          value={formData.final_cost}
-          onChange={handleChange}
-        />
-      </Form.Group>
-
-      <Button onSubmit={handleEditForm} variant="primary" type="submit">
-        Atualizar
-      </Button>
     </Form>
   );
 };

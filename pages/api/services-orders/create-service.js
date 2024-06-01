@@ -17,7 +17,7 @@ export default async function createServiceOrder(req, res) {
     id_client,
     order_date,
     service_description,
-    estimated_cost,
+    price,
     relevant_notes,
     name,
   } = req.body;
@@ -27,17 +27,17 @@ export default async function createServiceOrder(req, res) {
       id_client,
       order_date,
       service_description,
-      estimated_cost,
+      price,
       relevant_notes,
       name,
-      status: statusTypes.Inicial,
+      current_status: statusTypes[1],
     },
   });
 
   if (error) {
-    res.status(500).json({ message: "A error its occurred" });
+    res.status(500).json(error);
   }
-  if (id_client) {
+  if (id_client === null) {
     res.status(401).json({ message: "Insira um cliente" });
   }
 
