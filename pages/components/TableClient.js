@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
-import ViewAndEditService from "./View";
 
 function TableClient() {
   const [data, setData] = useState(null);
@@ -62,11 +59,6 @@ function TableClient() {
                   </td>
                 </tr>
               ))}
-            {handleViewForm && (
-              <ViewAndEditService
-                orderId={data.map(({ id_client }) => id_client)}
-              />
-            )}
           </tbody>
         </table>
       </div>
